@@ -16,6 +16,25 @@
     <th:block th:text="${userAttributes.get('profile_attributes').get('given_name')}"></th:block>
     <th:block th:text="${userAttributes.get('profile_attributes').get('family_name')}"></th:block>
 </div>
+<p>Active sessions: <th:block th:text="${#lists.size(govssoSessions)}"></th:block> </p>
+<p><a href="/api/sessions/">End all</a></p>
+<hr />
+<th:block th:each="govssoSession: ${govssoSessions}"> <!-- variable name "session" is a reserved word -->
+    <dl>
+        <dt>ID</dt>
+        <dd th:text="${govssoSession.sessionId}"></dd>
+        <dt>Services</dt>
+        <dd>
+            <ul>
+                <li th:each="service: ${govssoSession.services}" th:text="${service.clientNames.get('et')}"></li>
+            </ul>
+        </dd>
+    </dl>
+    <p>
+        <a th:href="'/api/sessions/' + ${govssoSession.sessionId}">End session</a>
+    </p>
+    <hr />
+</th:block>
 <div>
     <a href="/logout">Log out</a> <!-- TODO: POST instead -->
 </div>
