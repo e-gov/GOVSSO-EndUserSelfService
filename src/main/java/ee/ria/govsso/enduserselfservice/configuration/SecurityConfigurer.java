@@ -31,7 +31,7 @@ public class SecurityConfigurer {
             "default-src 'none'; " +
             "font-src 'self'; " +
             "img-src 'self'; " +
-            "script-src 'self'; " +
+            "script-src 'self' 'unsafe-inline'; " +
             "style-src 'self'; " +
             "base-uri 'none'; " +
             "frame-ancestors 'none'; " +
