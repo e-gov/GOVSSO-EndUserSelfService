@@ -17,22 +17,39 @@
     <th:block th:text="${userAttributes.get('profile_attributes').get('family_name')}"></th:block>
 </div>
 <p>Active sessions: <th:block th:text="${#lists.size(govssoSessions)}"></th:block> </p>
-<p><a href="#" onclick="endAllSessions()">End all</a></p>
+<p><a href="#" data-function="end-all-sessions">End all</a></p>
 <hr />
 <th:block th:each="govssoSession: ${govssoSessions}">
     <dl>
         <dt>ID</dt>
         <dd th:text="${govssoSession.sessionId}"></dd>
+        <dt>User agent</dt>
+        <dd th:text="${govssoSession.userAgent}"></dd>
+        <dt>IPs</dt>
+        <dd th:text="${#strings.listJoin(govssoSession.ipAddresses, ', ')}"></dd>
+        <dt>Authenticated at</dt>
+        <dd th:text="${#temporals.formatISO(govssoSession.authenticatedAt)}"></dd>
         <dt>Services</dt>
         <dd>
             <ul>
-                <li th:each="service: ${govssoSession.services}" th:text="${service.clientNames.get('et')}"></li>
+                <li th:each="service: ${govssoSession.services}">
+                    <th:block th:text="${service}"></th:block>
+                    <dl>
+                        <dt>Name</dt>
+                        <dd th:text="${service.clientNames.get('et')}"></dd>
+                        <dt>Authenticated at</dt>
+                        <dd th:text="${#temporals.formatISO(service.authenticatedAt)}"></dd>
+                        <dt>Expires at</dt>
+                        <dd th:text="${#temporals.formatISO(service.expiresAt)}"></dd>
+                        <dt>Last updated at</dt>
+                        <dd th:text="${#temporals.formatISO(service.lastUpdatedAt)}"></dd>
+                    </dl>
+                </li>
             </ul>
         </dd>
     </dl>
     <p>
-        <a href="#" onclick="endSession(this.getAttribute('data-session-id'))"
-           th:data-session-id="${govssoSession.sessionId}">
+        <a href="#" data-function="end-session" th:data-session-id="${govssoSession.sessionId}">
             End session
         </a>
     </p>

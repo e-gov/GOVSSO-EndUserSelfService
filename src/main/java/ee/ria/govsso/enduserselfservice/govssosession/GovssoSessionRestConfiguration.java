@@ -25,7 +25,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 public class GovssoSessionRestConfiguration {
 
     @Bean
-    public WebClient sessionRestClient(GovssoSessionProperties properties, ObjectMapper objectMapper) {
+    public WebClient sessionRestClient(GovssoSessionConfigurationProperties properties, ObjectMapper objectMapper) {
         SSLContext sslContext = createSslContext(properties.tls());
         TlsStrategy tlsStrategy = ClientTlsStrategyBuilder.create()
                 .setSslContext(sslContext)
@@ -38,7 +38,7 @@ public class GovssoSessionRestConfiguration {
                 .build();
 
         return WebClient.builder()
-                .baseUrl(properties.baseUrl())
+                .baseUrl(properties.baseUrl().toString())
                 .clientConnector(new HttpComponentsClientHttpConnector(httpClient))
                 .codecs(configurer -> {
                     configurer.defaultCodecs().jackson2JsonDecoder(
@@ -54,7 +54,7 @@ public class GovssoSessionRestConfiguration {
     }
 
     @SneakyThrows
-    private SSLContext createSslContext(GovssoSessionProperties.Tls tlsProperties) {
+    private SSLContext createSslContext(GovssoSessionConfigurationProperties.Tls tlsProperties) {
         return new SSLContextBuilder()
                 .loadTrustMaterial(
                         tlsProperties.trustStore().getURL(),

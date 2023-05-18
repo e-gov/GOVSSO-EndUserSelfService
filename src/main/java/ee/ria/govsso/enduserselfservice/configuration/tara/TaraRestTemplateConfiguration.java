@@ -23,7 +23,7 @@ import java.util.stream.Stream;
 public class TaraRestTemplateConfiguration {
 
     @Bean
-    RestTemplate taraRestTemplate(TaraProperties properties) {
+    RestTemplate taraRestTemplate(TaraConfigurationProperties properties) {
         SSLContext sslContext = createSslContext(properties);
         SSLConnectionSocketFactory socketFactory = new SSLConnectionSocketFactory(sslContext);
         @SuppressWarnings("resource")
@@ -43,7 +43,7 @@ public class TaraRestTemplateConfiguration {
     }
 
     @SneakyThrows
-    private static SSLContext createSslContext(TaraProperties properties) {
+    private static SSLContext createSslContext(TaraConfigurationProperties properties) {
         return new SSLContextBuilder()
                 .loadTrustMaterial(
                         properties.trustStore().getURL(),

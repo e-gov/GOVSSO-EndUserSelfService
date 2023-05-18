@@ -27,6 +27,7 @@ public class IndexController {
             return Mono.just(new ModelAndView("index"));
         }
         return govssoSessionService.getSubjectSessions(oidcUser.getSubject())
+                .collectList()
                 .map(sessions -> createDashboardViewModel(oidcUser, sessions))
                 .map(viewModel -> new ModelAndView("dashboard", viewModel));
     }

@@ -3,7 +3,6 @@ package ee.ria.govsso.enduserselfservice.govssosession;
 import lombok.Builder;
 import lombok.extern.jackson.Jacksonized;
 
-import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +12,7 @@ import java.util.Map;
 public record GovssoSession(
          String sessionId,
          OffsetDateTime authenticatedAt,
-         String ipAddress,
+         List<String> ipAddresses,
          String userAgent,
          List<Service> services
 ) {
@@ -24,7 +23,7 @@ public record GovssoSession(
              Map<String, String> clientNames,
              OffsetDateTime authenticatedAt,
              OffsetDateTime expiresAt,
-             Duration lastActive
+             OffsetDateTime lastUpdatedAt
     ) {}
 
 }

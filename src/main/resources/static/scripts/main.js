@@ -29,7 +29,7 @@ const endSession = function (sessionId) {
 }
 
 const showError = function (error) {
-	console.error("Error", error)
+	console.error('Error', error);
 };
 
 const createCsrfHeader = function() {
@@ -37,3 +37,15 @@ const createCsrfHeader = function() {
 	const headerName = $('meta[name="_csrf_header"]').attr('content');
 	return { [headerName]: token };
 }
+
+$('a[data-function="end-all-sessions"]').on('click', event => {
+	event.preventDefault();
+	endAllSessions();
+})
+
+$('a[data-function="end-session"]').on('click', event => {
+	event.preventDefault();
+	const sessionId = $(event.delegateTarget).attr('data-session-id');
+	endSession(sessionId);
+})
+
